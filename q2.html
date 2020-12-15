@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" content="width=device-width, initial-scale=1" name="viewport">
+    <style>
+	html {
+		font-family: sans-serif;
+		background-color: white;
+		background-repeat: no-repeat;
+		background-attachment: fixed; 
+		background-size: cover;
+		height: 100%;
+		overflow: hidden;
+	}
+	body { height: 100%; }
+	.quiz {
+		margin: auto;
+		height: 100%;
+		color: black;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 1em;
+		flex-direction: column;
+        	text-align: center;
+      	}
+	@media (max-width: 800px) {
+		html {
+			overflow: hidden;
+		}
+	    	.quiz {
+			margin: auto;
+			color: black;
+			display: flex;
+			overflow: visible;
+			font-size: 1em;
+			flex-direction: column;
+			text-align: center;
+		}
+	}
+      	.quizButtons {
+        	display: block;
+      	}
+	@media screen only and (max-width: 800px) {
+		.quizButtons {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+	  }
+      .quizButtons button {
+	      font-size: 1.6em;
+	      background-color: red;
+	      margin: 20px;
+	      width: 250px;
+	      border-radius: 10px;
+	      border: red 10px solid;
+	      color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz">
+      <h1>Another question</h1>
+      k<div class="quizButtons">
+        <button id="q2_1">Item2_1</button>
+        <button id="q2_2">Item2_2</button>
+        <button id="q2_3">Item2_3</button>
+      </div>
+  </body>
+  <script type="text/javascript">
+    class butCtl {
+      constructor () {}
+      getAll () {
+        return document.querySelectorAll('button[id^=q]')
+      }
+      get (subVal) {
+        return document.querySelectorAll(`button[id^=${subVal.substring(0, subVal.indexOf('_'))}]`)
+      }
+    }
+    class butClass {
+      constructor () {
+        let butMain = new butCtl()
+        this.query = butMain.getAll()
+        this.setup()
+      }
+      setup () {
+        for (var i = 0; i < this.query.length; i++) 
+          this.query[i].onclick = function () {
+            let butMain = new butCtl()
+        let curRow = butMain.get(this.id)
+            document.cookie = `${this.id.substring(0, this.id.indexOf('_'))}=${this.innerHTML}; secure`
+            let urlPath = location.href.match(/([^\/]*html)$/g)
+            urlPath = String(urlPath).replace(/([\d+])/, function () { return parseInt(RegExp.$1) + 1 })
+            location.href = urlPath
+          }
+      }
+    }
+    
+    let mainCtl = new butClass()
+  </script>
+</html>
